@@ -4,7 +4,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const fs = require("fs");
 
-app.use(express.static("./develop/public"));
+app.use(express.static("./public"));
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
