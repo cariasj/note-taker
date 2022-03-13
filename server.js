@@ -8,12 +8,12 @@ const fs = require("fs");
 
 app.use(express.static("./public"));
 
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 
 app.get("/api/notes", (req, res) => {
-    res.sendFile(path.join(__dirname, "/db/db.json"))
+    res.sendFile(path.join(__dirname, "./db/db.json"))
 });
 
 
