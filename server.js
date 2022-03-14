@@ -1,10 +1,10 @@
 const express = require('express');
 const { json } = require('express/lib/response');
-const app = express();
-const noteInput = require("./db/db.json");
+const notes = require("./db/db.json");
 const path = require("path");
 const PORT = process.env.PORT || 3000;
 const fs = require("fs");
+const app = express();
 
 app.use(express.static("./public"));
 
@@ -19,19 +19,29 @@ app.get("*", (req, res) => {
 });
 
 
-
-app.get("/api/notes", (req, res) => {
-    res.sendFile(path.join(__dirname, "./db/db.json"))
-
-});
-
+ app.get("/api/notes", (req, res) => {
+    fs.readFile("db/db.json", "utf8", (err, data) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        res.json(notes);
+      });
+    });
+    
+    //res.sendFile(path.join(__dirname, "/db/db.json"))
+    //   res.json(JSON.parse(fs.readFileSync(path.join(__dirname, "/db/db.json"), (err, data) => {
+    //     if (err) throw err;
+    //     }))
+    //     );
+//});
 
 app.post("/api/notes", (req, res) => {
-    const noteInput = JSON.parse(fs.readFileSync("./db/db/json"));
+    const notes = JSON.parse(fs.readFileSync("./db/db/json"));
     const note = req.body;
-    noteInput.push(note);
-    fs.writeFileSync("./db/db.json", JSON.stringify(noteInput))
-    res.json(noteInput);
+    notes.push(note);
+    fs.writeFileSync("./db/db.json", JSON.stringify(notes))
+    res.json(notes);
 });
 
 
